@@ -19,3 +19,6 @@ app-db-prepare:
 
 test:
 	docker-compose run app bin/rails test
+
+test-guard:
+	docker-compose run app bundle exec guard
