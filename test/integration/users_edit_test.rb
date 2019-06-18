@@ -17,10 +17,12 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     assert_select 'div.alert-danger', 'The form contains 4 errors.'
   end
 
-  test 'successful edit' do
-    log_in_as(@user)
+  test 'successful edit with friendly forwading' do
     get edit_user_path(@user)
-    assert_template 'users/edit'
+    assert_match edit_user_path(@user), session[:forwading_url]
+    log_in_as(@user)
+    assert_redirected_to edit_user_path(@user)
+    assert_nil session[:forwading_url]
     name = 'Foo Bar'
     email = 'foo@bar.com'
     patch user_path(@user), params: { user: { name: name,
